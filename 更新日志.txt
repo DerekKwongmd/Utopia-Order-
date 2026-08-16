@@ -1,0 +1,5 @@
+ver1.1
+- 更新 adjust the parameters 界面保存并返回功能，优化同步功能
+- 提取公共样式到 styles.css，提取公共逻辑到 scripts.js
+- 移除了 adjust the parameters.html 的自动保存到本地提示框
+- 将导出逻辑更换为环境配置+每个人物单独信息

@@ -3,33 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utopia: Order</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
-        :root {
-            --primary-color: #b3d9ff;
-            --secondary-color: #cce5ff;
-            --accent-color: #66a3e0;
-            --text-color: #333;
-            --light-bg: #f0f7ff;
-            --card-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--primary-color);
-            color: var(--text-color);
-            min-height: 100vh;
         }
         
         .container {
             max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
         }
         
         header {
@@ -55,27 +38,6 @@
             gap: 10px;
             flex-wrap: wrap;
             align-items: center;
-        }
-        
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            background: var(--accent-color);
-            color: white;
-        }
-        
-        .btn:hover {
-            opacity: 0.85;
-            transform: translateY(-1px);
-        }
-        
-        .btn-secondary {
-            background: #e2e8f0;
-            color: #333;
         }
         
         .color-picker {
@@ -196,22 +158,8 @@
             padding: 25px;
             box-shadow: var(--card-shadow);
         }
-                
-        .search-input {
-            width: 100%;
-            padding: 12px 18px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: border-color 0.3s;
-        }
         
-        .search-input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-        
-	.sidebar-search {
+        .sidebar-search {
             width: 100%;
             padding: 10px;
             border: 2px solid #e2e8f0;
@@ -225,6 +173,7 @@
             outline: none;
             border-color: var(--accent-color);
         }
+        
         .reminder-section {
             background: linear-gradient(135deg, #fff3cd, #ffeaa7);
             padding: 15px 20px;
@@ -319,62 +268,16 @@
             color: white;
         }
         
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            max-width: 400px;
-            width: 90%;
-        }
-        
-        .modal-content h3 {
-            margin-bottom: 20px;
-        }
-        
-        .modal-content input,
-        .modal-content select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-        }
-        
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-        
         @media (max-width: 768px) {
             .main-layout {
                 grid-template-columns: 1fr;
             }
-            
             header {
                 flex-direction: column;
                 text-align: center;
             }
         }
     </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -414,7 +317,7 @@
                     </div>
                 </div>
                 
-<div class="sidebar-section">
+                <div class="sidebar-section">
                     <h3>📊 排序</h3>
                     <select class="sort-select" onchange="applySort(this.value)">
                         <option value="">默认排序</option>
@@ -435,7 +338,6 @@
             </aside>
 
             <main class="content-area">
-
                 <div class="reminder-section" id="reminderSection">
                     <h3>⏰ 今日待联系</h3>
                     <ul class="reminder-list" id="reminderList"></ul>
@@ -485,26 +387,27 @@
                     </div>
 
                     <div class="detail-info">
-    <div class="info-card">
-        <label>选择层级</label>
-        <div class="level-select" id="levelSelect">
-            <button onclick="setLevel('外围层')">外围层</button>
-            <button onclick="setLevel('中间层')">中间层</button>
-            <button onclick="setLevel('核心层')">核心层</button>
-        </div>
-    </div>
-</div>
+                        <div class="info-card">
+                            <label>选择层级</label>
+                            <div class="level-select" id="levelSelect">
+                                <button onclick="setLevel('外围层')">外围层</button>
+                                <button onclick="setLevel('中间层')">中间层</button>
+                                <button onclick="setLevel('核心层')">核心层</button>
+                            </div>
+                        </div>
+                    </div>
 
-<div class="detail-info">
-    <div class="info-card" style="grid-column: 1 / -1;">
-        <label>备注</label>
-        <textarea id="personNotes" rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; font-size:14px; resize:vertical; box-sizing:border-box;" onchange="updatePersonInfo()" placeholder="可输入用户联系方式和喜好等"></textarea>
-    </div>
-</div>
+                    <div class="detail-info">
+                        <div class="info-card" style="grid-column: 1 / -1;">
+                            <label>备注</label>
+                            <textarea id="personNotes" rows="3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; font-size:14px; resize:vertical; box-sizing:border-box;" onchange="updatePersonInfo()" placeholder="可输入用户联系方式和喜好等"></textarea>
+                        </div>
+                    </div>
 
-                <div id="emptyState" style="text-align: center; padding: 60px 20px;">
-                    <p style="font-size: 48px; margin-bottom: 20px;">👤</p>
-                    <p style="color: #666;">请从左侧选择一个联系人，或添加新的联系人</p>
+                    <div id="emptyState" style="text-align: center; padding: 60px 20px;">
+                        <p style="font-size: 48px; margin-bottom: 20px;">👤</p>
+                        <p style="color: #666;">请从左侧选择一个联系人，或添加新的联系人</p>
+                    </div>
                 </div>
             </main>
         </div>
@@ -515,11 +418,9 @@
         <div class="modal-content">
             <h3>📥 导入数据</h3>
             <select id="importFormat">
-                <option value="json">JSON (.json)</option>
-                <option value="md">Markdown (.md)（不推荐使用）</option>
-                <option value="zip">ZIP压缩包 (.zip)</option>
+                <option value="zip">ZIP 格式</option>
             </select>
-            <input type="file" id="importFile" accept=".json,.md,.zip">
+            <input type="file" id="importFile" accept=".zip">
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeModal('importModal')">取消</button>
                 <button class="btn" onclick="importData()">导入</button>
@@ -532,9 +433,7 @@
         <div class="modal-content">
             <h3>📤 导出数据</h3>
             <select id="exportFormat">
-                <option value="json">JSON (.json)</option>
-                <option value="md">Markdown (.md)（不推荐使用）</option>
-                <option value="zip">ZIP压缩包 (.zip)</option>
+                <option value="zip">ZIP 格式</option>
             </select>
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeModal('exportModal')">取消</button>
@@ -543,638 +442,8 @@
         </div>
     </div>
 
+    <script src="scripts.js"></script>
     <script>
-        // 数据存储
-        let contacts = [];
-        let currentPersonId = null;
-
-        // 初始化示例数据
-        function initSampleData() {
-            if (localStorage.getItem('contacts')) {
-                contacts = JSON.parse(localStorage.getItem('contacts'));
-            } else {
-                contacts = [
-                    {
-    id: '1',
-    name: '张三',
-    level: '外围层',
-    environment: '职场',
-    score: 35,
-    lastContact: '2026-07-28',
-    contactInterval: 30,
-    nextContact: '2026-08-27',
-    notes: ''
-},
-{
-    id: '2',
-    name: '李四',
-    level: '中间层',
-    environment: '项目开发',
-    score: 45,
-    lastContact: '2026-08-01',
-    contactInterval: 21,
-    nextContact: '2026-08-22',
-    notes: ''
-},
-{
-    id: '3',
-    name: '王五',
-    level: '核心层',
-    environment: '风险投资',
-    score: 55,
-    lastContact: '2026-08-05',
-    contactInterval: 14,
-    nextContact: '2026-08-19',
-    notes: ''
-}
-                ];
-                saveToLocal();
-            }
-            renderAll();
-        }
-
-        function saveToLocal() {
-            localStorage.setItem('contacts', JSON.stringify(contacts));
-        }
-
-        // 渲染联系人列表
-        function renderContactList(filteredContacts) {
-            const list = document.getElementById('contactList');
-            const items = filteredContacts || contacts;
-            list.innerHTML = items.map(c => `
-                <li class="contact-item ${c.id === currentPersonId ? 'active' : ''}" 
-                    onclick="selectPerson('${c.id}')">
-                    <span class="contact-name">${c.name}</span>
-                    <span class="contact-level">${c.level || '未评级'}</span>
-                </li>
-            `).join('');
-        }
-
-        // 渲染提醒列表
-        function renderReminders() {
-            const today = new Date().toISOString().split('T')[0];
-            const reminders = contacts.filter(c => c.nextContact === today);
-            const list = document.getElementById('reminderList');
-            
-            if (reminders.length === 0) {
-                list.innerHTML = '<li class="reminder-item">✅ 今天没有待联系的人</li>';
-                return;
-            }
-            
-            list.innerHTML = reminders.map(c => `
-                <li class="reminder-item">🔔 今天需要联系 <strong>${c.name}</strong></li>
-            `).join('');
-        }
-	// 搜索联系人
-        function searchContacts(keyword) {
-            if (!keyword || keyword.trim() === '') {
-                renderContactList();
-                return;
-            }
-            
-            const filtered = contacts.filter(c => 
-                c.name.toLowerCase().includes(keyword.toLowerCase())
-            );
-            renderContactList(filtered);
-        }
-
-      // 选择联系人
-        function selectPerson(id) {
-    currentPersonId = id;
-    const person = contacts.find(c => c.id === id);
-    if (!person) return;
-
-    document.getElementById('emptyState').style.display = 'none';
-    document.getElementById('personDetail').classList.add('active');
-    
-    document.getElementById('personName').textContent = person.name;
-    document.getElementById('lastContactDate').value = person.lastContact || '';
-    document.getElementById('contactInterval').value = person.contactInterval || '';
-    document.getElementById('currentLevel').textContent = person.level || '未评定';
-    document.getElementById('currentScore').textContent = person.score || 0;
-    document.getElementById('environmentSelect').value = person.environment || '';
-    document.getElementById('personNotes').value = person.notes || '';
-    
-    updateDaysUntilNext(person);
-    renderContactList();
-
-    // 当选择联系人时，根据当前环境和用户自定义配置重新计算分值
-    if (person.environment) {
-        recalculateScoreByEnvironment(person);
-    }
-
-   // 更新评分细则链接
-    const scoringLink = document.getElementById('scoringLink');
-    if (scoringLink) {
-        const env = person.environment || '';
-        scoringLink.href = `scoring.html?id=${id}&name=${encodeURIComponent(person.name)}&env=${encodeURIComponent(env)}`;
-    }
-}
-
-        // 应用筛选
-        function applyFilters() {
-            const selectedLevels = [...document.querySelectorAll('.filter-group:first-child input:checked')]
-                .map(i => i.value);
-            const selectedEnvironments = [...document.querySelectorAll('.filter-group:last-child input:checked')]
-                .map(i => i.value);
-
-            let filtered = contacts;
-            
-            if (selectedLevels.length > 0) {
-                filtered = filtered.filter(c => selectedLevels.includes(c.level));
-            }
-            
-            if (selectedEnvironments.length > 0) {
-                filtered = filtered.filter(c => selectedEnvironments.includes(c.environment));
-            }
-
-            renderContactList(filtered);
-        }
-
-        // 应用排序
-        function applySort(method) {
-            let sorted = [...contacts];
-            if (method === 'score') {
-                sorted.sort((a, b) => (b.score || 0) - (a.score || 0));
-            } else if (method === 'nextContact') {
-                sorted.sort((a, b) => (a.nextContact || '').localeCompare(b.nextContact || ''));
-            }
-            renderContactList(sorted);
-        }
-
-           // 更新距离下次联系天数
-        function updateDaysUntilNext(person) {
-            if (person.nextContact) {
-                const today = new Date();
-                const next = new Date(person.nextContact);
-                const diff = Math.ceil((next - today) / (1000 * 60 * 60 * 24));
-                document.getElementById('daysUntilNext').textContent = diff >= 0 ? `${diff}天` : '已过期';
-            } else {
-                document.getElementById('daysUntilNext').textContent = '-';
-            }
-        }
-
-// 更新联系人信息
-function updatePersonInfo() {
-    const person = contacts.find(c => c.id === currentPersonId);
-    if (!person) return;
-
-    const oldEnv = person.environment;
-    person.lastContact = document.getElementById('lastContactDate').value;
-    person.contactInterval = parseInt(document.getElementById('contactInterval').value) || 0;
-    person.environment = document.getElementById('environmentSelect').value;
-    person.notes = document.getElementById('personNotes').value || '';
-
-            // 如果环境改变了，重新计算分值
-            if (oldEnv !== person.environment && person.environment) {
-                recalculateScoreByEnvironment(person);
-            }
-
-            if (person.lastContact && person.contactInterval) {
-                const last = new Date(person.lastContact);
-                last.setDate(last.getDate() + person.contactInterval);
-                person.nextContact = last.toISOString().split('T')[0];
-            }
-
-            saveToLocal();
-            updateDaysUntilNext(person);
-            renderReminders();
-        }// 根据当前环境重新计算分值
-        function recalculateScoreByEnvironment(person) {
-    const savedData = localStorage.getItem(`scoring_${person.id}`);
-    if (!savedData) return;
-
-    try {
-        const data = JSON.parse(savedData);
-        if (!data.scores || data.scores.length === 0) return;
-
-        // 从 localStorage 读取用户自定义的配置
-        let userConfig = null;
-        const savedConfig = localStorage.getItem('utopia_config');
-        if (savedConfig) {
-            try {
-                userConfig = JSON.parse(savedConfig);
-            } catch(e) {}
-        }
-
-        // 获取维度名称（优先使用用户自定义的）
-        const dimNames = userConfig && userConfig.dimNames ? userConfig.dimNames : 
-            ['信息筛选能力','决策力','执行力','学习迁移能力','沟通能力','情绪稳定性','抗打击能力','边界感','互惠意识','冲突处理能力','承诺兑现率','专业领域贡献值'];
-
-        // 获取环境系数（优先使用用户自定义的）
-        let coefMap = null;
-        if (userConfig && userConfig.coefficients && userConfig.coefficients[person.environment]) {
-            // 用户自定义的系数是数组格式，需要转换为对象格式
-            const coeffArray = userConfig.coefficients[person.environment];
-            coefMap = {};
-            dimNames.forEach((dim, idx) => {
-                coefMap[dim] = coeffArray[idx] !== undefined ? coeffArray[idx] : 1.0;
-            });
-        } else {
-            // 降级使用默认硬编码系数
-            const defaultCoefficients = {
-                '职场': [1.0, 1.0, 1.2, 0.8, 1.4, 1.2, 0.8, 1.2, 1.0, 1.4, 1.2, 1.0],
-                '项目开发': [1.2, 1.4, 1.6, 1.2, 1.0, 1.0, 1.4, 0.8, 1.2, 1.2, 1.4, 1.6],
-                '风险投资': [1.6, 1.8, 1.0, 1.4, 1.2, 1.6, 1.8, 0.6, 1.0, 0.8, 1.4, 1.2],
-                '学术研究': [1.4, 0.8, 0.6, 1.6, 1.0, 0.8, 1.2, 1.0, 0.8, 0.6, 1.0, 1.8]
-            };
-            const defaultArray = defaultCoefficients[person.environment] || dimNames.map(() => 1.0);
-            coefMap = {};
-            dimNames.forEach((dim, idx) => {
-                coefMap[dim] = defaultArray[idx] !== undefined ? defaultArray[idx] : 1.0;
-            });
-        }
-
-        if (!coefMap) return;
-
-        let totalScore = 0;
-        data.scores.forEach((score, idx) => {
-            if (idx < dimNames.length) {
-                const rawScore = parseInt(score);
-                if (!isNaN(rawScore) && rawScore >= 1 && rawScore <= 5) {
-                    const dim = dimNames[idx];
-                    const coef = coefMap[dim] || 1.0;
-                    totalScore += rawScore * coef;
-                }
-            }
-        });
-
-        person.score = Math.round(totalScore * 100) / 100;
-        document.getElementById('currentScore').textContent = person.score;
-    } catch(e) {
-        console.log('重新计算分值失败', e);
-    }
-}
-
-        // 设置层级
-        function setLevel(level) {
-            const person = contacts.find(c => c.id === currentPersonId);
-            if (!person) return;
-            
-            person.level = level;
-            document.getElementById('currentLevel').textContent = level;
-            
-            document.querySelectorAll('#levelSelect button').forEach(b => b.classList.remove('selected'));
-            event.target.classList.add('selected');
-            
-            saveToLocal();
-            renderContactList();
-        }
-
-        // 添加联系人
-        function addContact() {
-            const name = prompt('请输入联系人姓名：');
-            if (!name) return;
-            
-            const newContact = {
-    id: Date.now().toString(),
-    name: name,
-    level: '',
-    environment: '',
-    score: 0,
-    lastContact: '',
-    contactInterval: 7,
-    nextContact: '',
-    notes: ''
-};
-            
-            contacts.push(newContact);
-            saveToLocal();
-            renderAll();
-            selectPerson(newContact.id);
-        }
-
-        // 编辑联系人名字
-        function editPersonName() {
-            const person = contacts.find(c => c.id === currentPersonId);
-            if (!person) return;
-            
-            const newName = prompt('请输入新的姓名：', person.name);
-            if (!newName) return;
-            
-            person.name = newName;
-            document.getElementById('personName').textContent = newName;
-            saveToLocal();
-            renderContactList();
-        }
-
-        // 删除联系人
-        function deletePerson() {
-            if (!confirm('确定要删除该联系人吗？')) return;
-            
-            contacts = contacts.filter(c => c.id !== currentPersonId);
-            currentPersonId = null;
-            saveToLocal();
-            renderAll();
-            
-            document.getElementById('personDetail').classList.remove('active');
-            document.getElementById('emptyState').style.display = 'block';
-        }
-
-        // 更改主题色
-        function changeTheme(color) {
-            document.documentElement.style.setProperty('--primary-color', color);
-            // 自动生成浅色变体
-            document.documentElement.style.setProperty('--secondary-color', color + '99');
-        }
-
-        // 模态框操作
-        function showImportModal() {
-            document.getElementById('importModal').classList.add('active');
-        }
-
-        function showExportModal() {
-            document.getElementById('exportModal').classList.add('active');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
-
-        // 导入数据
-        function importData() {
-            const format = document.getElementById('importFormat').value;
-            const file = document.getElementById('importFile').files[0];
-            
-            if (!file) {
-                alert('请选择文件');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    // --- 新增：JSON 格式导入 ---
-                    if (format === 'json') {
-                        const importedData = JSON.parse(e.target.result);
-                        
-                        // 验证数据结构
-                        if (!importedData.contacts || !Array.isArray(importedData.contacts)) {
-                            throw new Error('无效的 JSON 数据格式');
-                        }
-
-                        // 恢复参数设置
-if (importedData.config) {
-    localStorage.setItem('utopia_config', JSON.stringify(importedData.config));
-}
-                        
-                        importedData.contacts.forEach(importedContact => {
-                            // 提取并分离评分数据
-                            const { scoringDetails, ...contactBase } = importedContact;
-                            
-                            // 重新生成 ID，避免与本地旧数据冲突（或者保留原ID用于覆盖）
-                            const newId = Date.now().toString() + Math.random();
-                            contactBase.id = newId;
-                            
-                            // 将联系人基础信息加入 contacts
-                            contacts.push(contactBase);
-                            
-                            // 将评分数据写回 localStorage
-                            if (scoringDetails) {
-                                localStorage.setItem(`scoring_${newId}`, JSON.stringify(scoringDetails));
-                            } else {
-                                // 如果没有评分数据，初始化一个空结构
-                                localStorage.setItem(`scoring_${newId}`, JSON.stringify({ scores: [], reasons: [] }));
-                            }
-                        });
-                        
-                        saveToLocal();
-                        renderAll();
-                        closeModal('importModal');
-                        alert('JSON 数据导入成功！');
-                        return; // 重要：结束函数，不再执行后面的 MD/ZIP 解析
-                    }
-                    
-                    // --- 原有的 MD 格式解析逻辑（保持不变，作为后备） ---
-                    if (format === 'md') {
-                        // 解析Markdown格式
-                        const content = e.target.result;
-                        const lines = content.split('\n');
-                        const importedContacts = [];
-                        let currentContact = null;
-                        
-                        lines.forEach(line => {
-                            if (line.startsWith('## ')) {
-                                if (currentContact) importedContacts.push(currentContact);
-                                currentContact = {
-                                    id: Date.now().toString() + Math.random(),
-                                    name: line.replace('## ', '').trim(),
-                                    level: '',
-                                    environment: '',
-                                    score: 0,
-                                    reasons: '',
-                                    scores: [],
-                                    lastContact: '',
-                                    contactInterval: 7,
-                                    nextContact: ''
-                                };
-                                
-                                localStorage.setItem(`scoring_${currentContact.id}`, JSON.stringify({
-                                    scores: [],
-                                    reasons: []
-                                }));
-                                
-                            } else if (currentContact && line.includes(':')) {
-                                const [key, value] = line.split(':').map(s => s.trim());
-                                if (key === '层级') currentContact.level = value;
-                                if (key === '环境') currentContact.environment = value;
-                                if (key === '分值') currentContact.score = parseInt(value) || 0;
-                                if (key === '上次联系') currentContact.lastContact = value;
-                                if (key === '联系间隔') currentContact.contactInterval = parseInt(value) || 7;
-                            }
-                        });
-                        if (currentContact) importedContacts.push(currentContact);
-                        
-                        // 导入覆盖逻辑：按"姓名 + 环境"双重匹配，相同则覆盖
-                        importedContacts.forEach(newContact => {
-                            const existingIndex = contacts.findIndex(c => 
-                                c.name === newContact.name && c.environment === newContact.environment
-                            );
-                            if (existingIndex !== -1) {
-                                newContact.id = contacts[existingIndex].id;
-                                contacts[existingIndex] = newContact;
-                            } else {
-                                contacts.push(newContact);
-                            }
-                        });
-                        
-                        saveToLocal();
-                        renderAll();
-                        closeModal('importModal');
-                        alert('导入成功！');
-                        return;
-                    }
-                    
-                    saveToLocal();
-                    renderAll();
-                    closeModal('importModal');
-                    alert('导入成功！');
-                } catch (err) {
-                    alert('导入失败：' + err.message);
-                }
-            };
-            
-            if (format === 'md') {
-                reader.readAsText(file);
-            } else {
-                reader.readAsArrayBuffer(file);
-            }
-        }
-
-// 导出数据
-        function exportData() {
-            const format = document.getElementById('exportFormat').value;
-            
-            // 构建完整的导出数据对象
-const exportPayload = {
-    version: '1.0',
-    exportDate: new Date().toISOString(),
-    config: null,
-    contacts: contacts.map(c => {
-        let scoringData = null;
-        const savedData = localStorage.getItem(`scoring_${c.id}`);
-        if (savedData) {
-            try {
-                scoringData = JSON.parse(savedData);
-            } catch(e) {}
-        }
-        
-        return {
-            ...c,
-            scoringDetails: scoringData
-        };
-    })
-};
-
-// 导出参数设置
-const savedConfig = localStorage.getItem('utopia_config');
-if (savedConfig) {
-    try {
-        exportPayload.config = JSON.parse(savedConfig);
-    } catch(e) {}
-}
-
-            // --- JSON 格式导出（默认推荐） ---
-            if (format === 'json') {
-                const jsonString = JSON.stringify(exportPayload, null, 2); // 格式化输出
-                const blob = new Blob([jsonString], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `Utopia_Order_${new Date().toISOString().split('T')[0]}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-            } 
-            // --- Markdown 格式导出（保留为辅助选项） ---
-            else if (format === 'md') {
-                let mdContent = '# Utopia: Order 数据导出\n\n';
-                mdContent += `导出日期: ${exportPayload.exportDate}\n\n`;
-                contacts.forEach(c => {
-                    mdContent += `## ${c.name}\n`;
-                    mdContent += `- 层级: ${c.level || '未评定'}\n`;
-                    mdContent += `- 环境: ${c.environment || '未设置'}\n`;
-                    mdContent += `- 分值: ${c.score || 0}\n`;
-                    mdContent += `- 上次联系: ${c.lastContact || '无'}\n`;
-                    mdContent += `- 联系间隔: ${c.contactInterval || 7}天\n`;
-                    mdContent += `- 下次联系: ${c.nextContact || '未计算'}\n`;
-                    
-                    // 添加评分详情
-                    const savedData = localStorage.getItem(`scoring_${c.id}`);
-                    if (savedData) {
-                        try {
-                            const data = JSON.parse(savedData);
-                            if (data.scores && data.scores.length > 0) {
-                                mdContent += `- 各维度原始分:\n`;
-                                const dimNames = ['信息筛选能力','决策力','执行力','学习迁移能力','沟通能力','情绪稳定性','抗打击能力','边界感','互惠意识','冲突处理能力','承诺兑现率','专业领域贡献值'];
-                                data.scores.forEach((score, idx) => {
-                                    if (idx < dimNames.length) {
-                                        mdContent += `  - ${dimNames[idx]}: ${score}分\n`;
-                                    }
-                                });
-                            }
-                        } catch(e) {}
-                    }
-                    
-                    mdContent += '\n';
-                });
-                
-                const blob = new Blob([mdContent], { type: 'text/markdown' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `Utopia_Order_${new Date().toISOString().split('T')[0]}.md`;
-                a.click();
-                URL.revokeObjectURL(url);
-            }
-            // --- ZIP 格式导出（保留） ---
-            else if (format === 'zip') {
-                // 生成JSON内容（替代原来的MD）
-                const jsonString = JSON.stringify(exportPayload, null, 2);
-
-                // 创建ZIP文件
-                const zip = new JSZip();
-                zip.file('Utopia_Order_数据.json', jsonString);
-                
-                // 为每个联系人单独生成评分JSON文件
-                contacts.forEach(c => {
-                    const savedData = localStorage.getItem(`scoring_${c.id}`);
-                    if (savedData) {
-                        try {
-                            const data = JSON.parse(savedData);
-                            if (data.scores && data.scores.length > 0) {
-                                const detailJson = JSON.stringify({
-                                    name: c.name,
-                                    environment: c.environment || '未设置',
-                                    score: c.score || 0,
-                                    dimensions: data.scores.map((score, idx) => ({
-                                        name: ['信息筛选能力','决策力','执行力','学习迁移能力','沟通能力','情绪稳定性','抗打击能力','边界感','互惠意识','冲突处理能力','承诺兑现率','专业领域贡献值'][idx],
-                                        score: score,
-                                        reason: data.reasons && data.reasons[idx] ? data.reasons[idx] : ''
-                                    }))
-                                }, null, 2);
-                                
-                                zip.file(`${c.name}_评分详情.json`, detailJson);
-                            }
-                        } catch(e) {}
-                    }
-                });
-
-
-                // 生成并下载ZIP
-                zip.generateAsync({type: 'blob'}).then(function(content) {
-                    const url = URL.createObjectURL(content);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `Utopia_Order_${new Date().toISOString().split('T')[0]}.zip`;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                }).catch(function(e) {
-                    alert('ZIP导出失败，改用MD格式导出');
-                    document.getElementById('exportFormat').value = 'md';
-                    exportData();
-                });
-            }
-            
-	closeModal('exportModal');            
-            // 导出成功后询问是否清空数据
-            setTimeout(() => {
-                if (confirm('数据已成功导出！是否清空当前页面数据以重新开始？')) {
-                    contacts = [];
-                    currentPersonId = null;
-                    localStorage.removeItem('contacts');
-                    renderAll();
-                    document.getElementById('personDetail').classList.remove('active');
-                    document.getElementById('emptyState').style.display = 'block';
-                    alert('数据已清空，可以开始新的录入！');
-                }
-            }, 300);
-        }
-        // 渲染所有
-        function renderAll() {
-            renderContactList();
-            renderReminders();
-        }
-
         // 关闭模态框（点击外部）
         document.querySelectorAll('.modal').forEach(modal => {
             modal.addEventListener('click', function(e) {
